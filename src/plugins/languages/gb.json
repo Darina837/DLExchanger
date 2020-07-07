@@ -1,0 +1,17 @@
+{
+    "headerContent": "Exchanger",
+    "textGIVE": "Give in",
+    "textForAmount": "Amount in",
+    "textGET": "Get in",
+    "textButton": {"true": "Exchange", "false": "Enter amount"},
+    "rate": "Rate",
+    "reserve": "Reserve",
+    "errorMessage": "You have exceeded the currency reserve",
+    "successMessage": "You have successfully exchanged",
+    "textAt": "The data is correct at",
+    "textBuy": "Bitcoin purchase",
+    "textSell": "Bitcoin sale",
+    "textLow": "Lowest 24h transaction price",
+    "textHigh": "Highest 24h transaction price",
+    "textLast": "Last trade price"
+}
