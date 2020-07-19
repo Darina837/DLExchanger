@@ -8,6 +8,7 @@
 </template>
 
 <script>
+
 import CountryFlag from 'vue-country-flag'
 export default {
     name: 'Header',

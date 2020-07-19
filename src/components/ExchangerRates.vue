@@ -3,15 +3,15 @@
         <div v-if="valutaFrom">
             <md-table md-card class="table-rates">
                 <md-table-toolbar>
-                    <h1 class="md-title">{{ this.translate('textAt') }} {{showDate}}</h1>
+                    <h1 class="md-title">{{ 'textAt' | translate }} {{showDate}}</h1>
                 </md-table-toolbar>
                 <md-table-row>
-                    <md-table-head v-if="valutaFrom === 'UAH'">{{ this.translate('textSell') }}</md-table-head>
-                    <md-table-head v-else>{{ this.translate('textBuy') }}</md-table-head>
-                    <md-table-head>{{ this.translate('textLow') }}</md-table-head>
-                    <md-table-head>{{ this.translate('textHigh') }}</md-table-head>
-                    <md-table-head>{{ this.translate('textLast') }}</md-table-head>
-                    <md-table-head>{{ this.translate('reserve') }}</md-table-head>
+                    <md-table-head v-if="valutaFrom === 'UAH'">{{ 'textSell' | translate }}</md-table-head>
+                    <md-table-head v-else>{{ 'textBuy' | translate }}</md-table-head>
+                    <md-table-head>{{ 'textLow' | translate }}</md-table-head>
+                    <md-table-head>{{ 'textHigh' | translate }}</md-table-head>
+                    <md-table-head>{{ 'textLast' | translate }}</md-table-head>
+                    <md-table-head>{{ 'reserve' | translate }}</md-table-head>
                 </md-table-row>
                 <md-table-row>
                     <md-table-cell v-if="valutaFrom === 'UAH'">{{ sell }}</md-table-cell>
@@ -27,11 +27,12 @@
 </template>
 
 <script>
+
 import axios from 'axios';
-import translateMixin from '../plugins/translateMixin';
+
 export default {
     name: 'ExchangerRates',
-    mixins: [translateMixin],
+
     data() {
         return {
             at: '',

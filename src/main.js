@@ -10,12 +10,18 @@ import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css';
 import CountryFlag from 'vue-country-flag';
 
+export function translateFilter(text) {
+  return i18n.t(text);
+}
+ 
 Vue.component('country-flag', CountryFlag);
 Vue.use(VueMaterial);
 Vue.use(VueRouter);
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.filter('translate', translateFilter);
 
 const router = new VueRouter({
+  mode: 'history',
   routes: [
     {
       path: '/', 

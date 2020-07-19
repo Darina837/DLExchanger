@@ -5,10 +5,9 @@
 </template>
 
 <script>
-import translateMixin from './plugins/translateMixin';
+
 export default {
   name: 'App',
-  mixins: [translateMixin]
 }
 </script>
 

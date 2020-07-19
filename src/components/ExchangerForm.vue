@@ -1,44 +1,44 @@
 <template>
     <div class="wrapper-form">
-        <h1>{{ this.translate('headerContent') }}</h1>
+        <h1>{{ 'headerContent' | translate }}</h1>
         <form>
             <md-field>
-                <label>{{ this.translate('textGIVE') }}</label>
+                <label>{{ 'textGIVE' | translate }}</label>
                 <md-select v-model="valutaFrom">
                     <md-option v-for="rate in ratesFrom" :value="rate" :key="rate">{{ rate }}</md-option>
                 </md-select>
             </md-field>
 
             <md-field>
-                <label>{{ this.translate('textForAmount') }}</label>
+                <label>{{ 'textForAmount' | translate }}</label>
                 <md-input type="number" min="0" v-model="amountFrom" />
             </md-field>
 
-            <div @click="change()" class="button-change"><h1>↻</h1></div>
+            <div @click="exchangeCurrency()" class="button-change"><h1>↻</h1></div>
 
             <md-field>
-                <label>{{ this.translate('textGET') }}</label>
+                <label>{{ 'textGET' | translate }}</label>
                 <md-select v-model="valutaTo">
                     <md-option v-for="rate in ratesTo" :value="rate" :key="rate">{{ rate }}</md-option>
                 </md-select>
             </md-field>
 
             <md-field :class="messageClass">
-                <label>{{ this.translate('textForAmount') }}</label>
+                <label>{{ 'textForAmount' | translate }}</label>
                 <md-input type="number" min="0" v-model="amountTo" />
-                <span class="md-error">{{ this.translate('errorMessage') }}</span>
+                <span class="md-error">{{ 'errorMessage' | translate }}</span>
             </md-field>
         </form>
-        <md-button @click="route" class="md-raised btn-exchage" :disabled="disabledButton">{{ this.translate('textButton.false').toUpperCase() }}</md-button>
+        <md-button @click="goToSuccessPage" class="md-raised btn-exchage" :disabled="disabledButton">{{ 'textButton.false' | translate }}</md-button>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import translateMixin from '../plugins/translateMixin';
+import {translateFilter} from '../main';
 export default {
     name: 'ExchangerForm',
-    mixins: [translateMixin],
+
     data() {
         return {
             rates: ['BTC', 'UAH'],
@@ -76,10 +76,10 @@ export default {
             set(newValue) {
                 if(this.$store.getters.valutaFrom === 'UAH') {
                     let result = Number(newValue) / Number(this.sellBitcoin);
-                    this.$store.commit('setAmountTo', parseFloat(result.toFixed(2)));
+                    this.$store.commit('setAmountTo', result);
                 } else if(this.$store.getters.valutaFrom === 'BTC') {
                     let result = Number(newValue) * Number(this.buyBitcoin);
-                    this.$store.commit('setAmountTo', parseFloat(result.toFixed(2)));
+                    this.$store.commit('setAmountTo', result);
                 }
             }
         },
@@ -90,10 +90,10 @@ export default {
             set(newValue) {
                 if(this.$store.getters.valutaTo === 'UAH') {
                     let result = Number(newValue) / Number(this.buyBitcoin);
-                    this.$store.commit('setAmountFrom', parseFloat(result.toFixed(2)));
+                    this.$store.commit('setAmountFrom', result);
                 } else if(this.$store.getters.valutaTo === 'BTC') {
                     let result = Number(newValue) * Number(this.sellBitcoin);
-                    this.$store.commit('setAmountFrom', parseFloat(result.toFixed(2)));
+                    this.$store.commit('setAmountFrom', result);
                 }
             }
         },
@@ -141,28 +141,29 @@ export default {
             this.valutaFrom = 'BTC'
         }
         if(this.amountFrom.length === 0 || this.amountTo.length === 0 || Number(this.amountFrom) < 0 || Number(this.amountTo) < 0 || Number(this.amountFrom) === 0 || Number(this.amountTo) === 0) {
-            document.querySelector('.btn-exchage').innerHTML = this.translate('textButton.false').toUpperCase();
+            document.querySelector('.btn-exchage').innerHTML = translateFilter('textButton.false');
             return this.disabledButton = true;
         } else if(Number(this.amountTo) > Number(this.reserve.slice(0, this.reserve.length - 3))) { 
-            document.querySelector('.btn-exchage').innerHTML = this.translate('textButton.false').toUpperCase();
+            document.querySelector('.btn-exchage').innerHTML = translateFilter('textButton.false');
             this.disabledButton = true;
             return this.hasMessages = true;
         } else {
-            document.querySelector('.btn-exchage').innerHTML = this.translate('textButton.true').toUpperCase();
+            document.querySelector('.btn-exchage').innerHTML = translateFilter('textButton.true');
             this.disabledButton = false;
             return this.hasMessages = false;
         }
     },
+    
     methods: {
-        change() {
+        exchangeCurrency() {
             let from = this.valutaFrom;
             let to = this.valutaTo;
             this.valutaFrom = to;
             this.valutaTo = from;
-            this.amountFrom = '';
-            this.amountTo = '';
+            this.amountFrom = 0;
+            this.amountTo = 0;
         },
-        route() {
+        goToSuccessPage() {
             this.$store.state.isRoute = true;
             this.$router.push({name: 'success'});
         }
